@@ -33,7 +33,7 @@ class CustomerReturnCrew:
             agents=[customer_agent],
             tasks=[customer_task],
             verbose=True,
-            # memory=True,
+            memory=True,
             tools=CustomerReturnAgent().customer_support_agent().tools,
             chat_llm=CustomerReturnAgent().customer_support_agent().llm,
             process=Process.sequential,
@@ -50,13 +50,13 @@ if __name__ == "__main__":
     print('-------------------------------')
     
     # name = "alice"
-    name = input(
-        dedent("""
-      Please give us your name so we can assist you with your return request.
-    """))
-    tool.history.append({"role": "assistant", "content":"Please give us your name so we can assist you with your return request."})
-    tool.history.append({"role": "user", "content": {name}})
-    customer_return_crew = CustomerReturnCrew(name)
+    # name = input(
+    #     dedent("""
+    #   Please give us your name so we can assist you with your return request.
+    # """))
+    # tool.history.append({"role": "assistant", "content":"Please give us your name so we can assist you with your return request."})
+    # tool.history.append({"role": "user", "content": {name}})
+    customer_return_crew = CustomerReturnCrew()
     result = customer_return_crew.run()
     print(result)
     

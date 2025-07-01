@@ -146,7 +146,7 @@ def check_eligibility(purchase_date_str: str, return_window: int) -> Dict[str, s
 
 
 @tool("ask_user_input")
-def ask_user_input(question: str) -> dict:
+async def ask_user_input(question: str) -> dict:
     """
     A generic tool that takes a question string from the LLM, prints that the LLM needs input,
     shows the question to the user, and collects the user's response.
@@ -161,11 +161,10 @@ def ask_user_input(question: str) -> dict:
     # print("\n🤖 The LLM needs your help to continue. Please answer the following question.\n")
     # print(f"🧠 Question: {question}")
     # answer = input("💬 Your answer: ").strip()
-    
 
-    cl.run_sync(cl.Message(content=f"🤖 The LLM needs your help to continue. Please answer the following question.\n {question}").send())
-    response = cl.AskUserMessage(content="💬 Your response?", timeout=180).send()
-    answer = cl.run_sync(response)
+    await cl.Message(content=f"🤖 {question}").send()
+    response = await cl.AskUserMessage(content="💬 Please type your answer below:").send()
+    answer = response['output'].strip()
 
     history.append({"role": "assistant", "content": question})
     history.append({"role": "user", "content": answer})
